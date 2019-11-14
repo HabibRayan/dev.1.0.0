@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="container-fluid app-body">
         <div class="row">
@@ -41,20 +40,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($paginates as $data)
+                <?php $__currentLoopData = $paginates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td>{{ $data->groupInfo->name }}</td>
-                    <td>{{ $data->groupInfo->type }}</td>
-                    <td>{{ $data->accountInfo->name }}</td>
-                    <td>{{ $data->post_text}}</td>
-                    <td>{{ $data->sent_at}}</td>
+                    <td><?php echo e($data->groupInfo->name); ?></td>
+                    <td><?php echo e($data->groupInfo->type); ?></td>
+                    <td><?php echo e($data->accountInfo->name); ?></td>
+                    <td><?php echo e($data->post_text); ?></td>
+                    <td><?php echo e($data->sent_at); ?></td>
                 </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </tbody>
             </table>
 
-            <span>{{ $paginates->links() }}</span>
+            <span><?php echo e($paginates->links()); ?></span>
 
         </div>
     </div>
@@ -71,7 +70,7 @@
             $search = $(this).val();
             $.ajax({
                 method:'get',
-                url: "{{ route('history.search') }}",
+                url: "<?php echo e(route('history.search')); ?>",
                 data: { 'search' : $search },
                 success:function (data) {
                     console.log(data);
@@ -85,4 +84,5 @@
     </script>
 
 
-    @endsection
+    <?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,16 +1,16 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid app-body">
         <div class="row">
             <div class="col-sm-4 group-col">
                 <h3>Pending <span class="count"></span></h3>
                 <div class="panel panel-default">
-                    @if ($type=='upload')
+                    <?php if($type=='upload'): ?>
                         <div class="panel-body text-center">
                             <br>
                             <div class="dropdown">
                                 <form id="csv-to-content-upload" action="" method="POST" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
+                                    <?php echo e(csrf_field()); ?>
+
                                     <div class="form-group">
                                         <label class="btn btn-default width-btn btn-dc" for="file-upload">+ Upload
                                             Content (CSV)fgdgfg</label>
@@ -34,7 +34,8 @@
                                 <ul class="dropdown-menu dropdown-center dropdown-pop add-content-online-dropdown"
                                     aria-labelledby="AddContentOnline">
                                     <form id="add-content-online" method="POST">
-                                        {{ csrf_field() }}
+                                        <?php echo e(csrf_field()); ?>
+
                                         <div class="form-group">STATUS UPDATE:</div>
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="text" id="text"
@@ -56,14 +57,15 @@
                             </div>
                             <br>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
-                    @if ($type=='curation')
+                    <?php if($type=='curation'): ?>
                         <div class="panel-body text-center">
                             <br>
                             <div class="dropdown">
                                 <form id="csv-to-curation-upload" method="POST" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
+                                    <?php echo e(csrf_field()); ?>
+
                                     <div class="form-group">
                                         <label for="file-curation" class="btn btn-default width-btn btn-dc">+ Upload RSS
                                             Feeds</label>
@@ -87,7 +89,8 @@
                                 <ul class="dropdown-menu dropdown-center dropdown-pop drop-red"
                                     aria-labelledby="AddContentOnline">
                                     <form id="add-curation-online" method="POST">
-                                        {{ csrf_field() }}
+                                        <?php echo e(csrf_field()); ?>
+
                                         <div class="form-group">RSS URL:</div>
                                         <div class="form-group">
                                             <input type="url" class="form-control" name="url" id="url"
@@ -103,14 +106,15 @@
 
                             <br>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
-                    @if ($type=='rss-automation')
+                    <?php if($type=='rss-automation'): ?>
                         <div class="panel-body text-center">
                             <br>
                             <div class="dropdown">
                                 <form id="csv-to-rss-automation-upload" method="POST" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
+                                    <?php echo e(csrf_field()); ?>
+
                                     <div class="form-group">
                                         <label for="file-rss-automation" class="btn btn-default width-btn btn-dc"> +
                                             Upload RSS Feeds</label>
@@ -134,7 +138,8 @@
                                 <ul class="dropdown-menu dropdown-center dropdown-pop drop-red"
                                     aria-labelledby="AddContentOnline">
                                     <form id="add-rss-automation-online" method="POST">
-                                        {{ csrf_field() }}
+                                        <?php echo e(csrf_field()); ?>
+
                                         <div class="form-group">RSS:</div>
                                         <div class="form-group">
                                             <input type="url" class="form-control" name="url"
@@ -146,11 +151,7 @@
                                                 <input type="text" class="form-control" name="fb"
                                                        placeholder="FACEBOOK HASHTAG: Enter a hashtag to add to your Facebook update (optional)">
                                             </div>
-                                            {{--<div class="form-group">
-                                                <span class="fa fa-google-plus"></span>
-                                                <input type="text" class="form-control" name="g"
-                                                       placeholder="GOOGLE+ HASHTAG: Enter a hashtag to add to your Google+ update (optional)">
-                                            </div>--}}
+                                            
                                             <div class="form-group">
                                                 <span class="fa fa-linkedin"></span>
                                                 <input type="text" class="form-control" name="in"
@@ -168,57 +169,58 @@
                             </div>
                             <br>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
 
                 </div>
                 <div class="group-items pending" data-status="pending">
-                    @foreach ($user->groups as $group)
-                        @if($group->status == 0 && $group->type==$type)
+                    <?php $__currentLoopData = $user->groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($group->status == 0 && $group->type==$type): ?>
                             <div class="panel panel-default group-single"
                                  onclick="selectThisGroup(this, event)"
                                  oncontextmenu="event.stopPropagation();event.preventDefault();reqForEdit()"
-                                 data-id="{{$group->id}}"
+                                 data-id="<?php echo e($group->id); ?>"
                                  data-status="pending">
                                 <div class="panel-body">
                                     <div class="media">
                                         <div class="media-left media-middle">
-                                            @if($type=='upload')
-                                                <a href="{{route('content-pending', $group->id)}}">
-                                                    @endif
-                                                    @if($type=='curation')
-                                                        <a href="{{route('content-curation-pending', $group->id)}}">
-                                                            @endif
-                                                            @if($type=='rss-automation')
-                                                                <a href="{{route('rss-automation-pending', $group->id)}}">
-                                                                    @endif
-                                                                    {{ substr($group->name, 0, 1) }}
+                                            <?php if($type=='upload'): ?>
+                                                <a href="<?php echo e(route('content-pending', $group->id)); ?>">
+                                                    <?php endif; ?>
+                                                    <?php if($type=='curation'): ?>
+                                                        <a href="<?php echo e(route('content-curation-pending', $group->id)); ?>">
+                                                            <?php endif; ?>
+                                                            <?php if($type=='rss-automation'): ?>
+                                                                <a href="<?php echo e(route('rss-automation-pending', $group->id)); ?>">
+                                                                    <?php endif; ?>
+                                                                    <?php echo e(substr($group->name, 0, 1)); ?>
+
                                                                 </a>
                                         </div>
                                         <div class="media-body media-middle">
-                                            @if($type=='upload')
-                                                <a href="{{route('content-pending', $group->id)}}">
-                                                    @endif
-                                                    @if($type=='curation')
-                                                        <a href="{{route('content-curation-pending', $group->id)}}">
-                                                            @endif
-                                                            @if($type=='rss-automation')
-                                                                <a href="{{route('rss-automation-pending', $group->id)}}">
-                                                                    @endif
-                                                                    <h4 class="media-heading">{{$group->name}}</h4>
+                                            <?php if($type=='upload'): ?>
+                                                <a href="<?php echo e(route('content-pending', $group->id)); ?>">
+                                                    <?php endif; ?>
+                                                    <?php if($type=='curation'): ?>
+                                                        <a href="<?php echo e(route('content-curation-pending', $group->id)); ?>">
+                                                            <?php endif; ?>
+                                                            <?php if($type=='rss-automation'): ?>
+                                                                <a href="<?php echo e(route('rss-automation-pending', $group->id)); ?>">
+                                                                    <?php endif; ?>
+                                                                    <h4 class="media-heading"><?php echo e($group->name); ?></h4>
                                                                     <p><i class="fa fa-clock-o"></i>
                                                                         <small> Schedule not set</small>
                                                                     </p>
                                                                 </a>
                                         </div>
                                         <div class="media-left media-middle">
-                                            @include('group.grouppop')
+                                            <?php echo $__env->make('group.grouppop', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endif
-                    @endforeach
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
 
@@ -226,69 +228,70 @@
             <div class="col-sm-4 group-col">
                 <h3>Active <span class="count"></span></h3>
                 <div class="group-items active" data-status="active">
-                    @foreach ($user->groups as $group)
-                        @if($group->status == 1 && $group->type==$type)
+                    <?php $__currentLoopData = $user->groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($group->status == 1 && $group->type==$type): ?>
                             <div class="panel panel-default group-single"
                                  onclick="selectThisGroup(this, event)"
                                  oncontextmenu="event.stopPropagation();event.preventDefault();reqForEdit()"
-                                 data-id="{{$group->id}}"
+                                 data-id="<?php echo e($group->id); ?>"
                                  data-status="active">
                                 <div class="panel-body">
                                     <div class="media">
                                         <div class="media-left media-middle">
 
-                                            @if($group->type=='upload')
-                                                <a href="{{route('content-active', $group->id)}}">
-                                                    @endif
-                                                    @if($group->type=='curation')
-                                                        <a href="{{route('content-curation-active', $group->id)}}">
-                                                            @endif
-                                                            @if($group->type=='rss-automation')
-                                                                <a href="{{route('rss-automation-active', $group->id)}}">
-                                                                    @endif
+                                            <?php if($group->type=='upload'): ?>
+                                                <a href="<?php echo e(route('content-active', $group->id)); ?>">
+                                                    <?php endif; ?>
+                                                    <?php if($group->type=='curation'): ?>
+                                                        <a href="<?php echo e(route('content-curation-active', $group->id)); ?>">
+                                                            <?php endif; ?>
+                                                            <?php if($group->type=='rss-automation'): ?>
+                                                                <a href="<?php echo e(route('rss-automation-active', $group->id)); ?>">
+                                                                    <?php endif; ?>
 
-                                                                    {{ substr($group->name, 0, 1) }}
+                                                                    <?php echo e(substr($group->name, 0, 1)); ?>
+
                                                                 </a>
                                         </div>
                                         <div class="media-body media-middle">
 
 
-                                            @if($group->type=='upload')
-                                                <a href="{{route('content-active', $group->id)}}">
-                                                    @endif
-                                                    @if($group->type=='curation')
-                                                        <a href="{{route('content-curation-active', $group->id)}}">
-                                                            @endif
-                                                            @if($group->type=='rss-automation')
-                                                                <a href="{{route('rss-automation-active', $group->id)}}">
-                                                                    @endif
-                                                                    <h4 class="media-heading">{{$group->name}}</h4>
+                                            <?php if($group->type=='upload'): ?>
+                                                <a href="<?php echo e(route('content-active', $group->id)); ?>">
+                                                    <?php endif; ?>
+                                                    <?php if($group->type=='curation'): ?>
+                                                        <a href="<?php echo e(route('content-curation-active', $group->id)); ?>">
+                                                            <?php endif; ?>
+                                                            <?php if($group->type=='rss-automation'): ?>
+                                                                <a href="<?php echo e(route('rss-automation-active', $group->id)); ?>">
+                                                                    <?php endif; ?>
+                                                                    <h4 class="media-heading"><?php echo e($group->name); ?></h4>
                                                                     <p>
                                                                         <i class="fa fa-clock-o"></i>
                                                                         <small>
-                                                                            @if(!$group->start_time)
+                                                                            <?php if(!$group->start_time): ?>
                                                                                 Schedule not set
-                                                                            @else
-                                                                                {{$group->frequency}} @if ($group->frequency=='1')
-                                                                                    post @else posts @endif
-                                                                                per  @if($group->interval=='hourly')
-                                                                                    hour @elseif($group->interval=='daily')
-                                                                                    day @elseif($group->interval=='weekly')
-                                                                                    week @elseif ($group->interval=='monthly')
-                                                                                    month @endif
-                                                                            @endif
+                                                                            <?php else: ?>
+                                                                                <?php echo e($group->frequency); ?> <?php if($group->frequency=='1'): ?>
+                                                                                    post <?php else: ?> posts <?php endif; ?>
+                                                                                per  <?php if($group->interval=='hourly'): ?>
+                                                                                    hour <?php elseif($group->interval=='daily'): ?>
+                                                                                    day <?php elseif($group->interval=='weekly'): ?>
+                                                                                    week <?php elseif($group->interval=='monthly'): ?>
+                                                                                    month <?php endif; ?>
+                                                                            <?php endif; ?>
                                                                         </small>
                                                                     </p>
                                                                 </a>
                                         </div>
                                         <div class="media-left media-middle">
-                                            @include('group.grouppop')
+                                            <?php echo $__env->make('group.grouppop', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endif
-                    @endforeach
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
 
@@ -296,56 +299,57 @@
             <div class="col-sm-4 group-col">
                 <h3>Completed <span class="count"></span></h3>
                 <div class="group-items completed" data-status="completed">
-                    @foreach ($user->groups as $group)
-                        @if($group->status == 2 && $group->type==$type)
+                    <?php $__currentLoopData = $user->groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php if($group->status == 2 && $group->type==$type): ?>
                             <div class="panel panel-default group-single"
                                  onclick="selectThisGroup(this, event)"
                                  oncontextmenu="event.stopPropagation();event.preventDefault();reqForEdit()"
-                                 data-id="{{$group->id}}"
+                                 data-id="<?php echo e($group->id); ?>"
                                  data-status="completed">
                                 <div class="panel-body">
                                     <div class="media">
                                         <div class="media-left media-middle">
 
 
-                                            @if($group->type=='upload')
-                                                <a href="{{route('content-completed', $group->id)}}">
-                                                    @endif
-                                                    @if($group->type=='curation')
-                                                        <a href="{{route('content-curation-completed', $group->id)}}">
-                                                            @endif
-                                                            @if($group->type=='rss-automation')
-                                                                <a href="{{route('rss-automation-completed', $group->id)}}">
-                                                                    @endif
+                                            <?php if($group->type=='upload'): ?>
+                                                <a href="<?php echo e(route('content-completed', $group->id)); ?>">
+                                                    <?php endif; ?>
+                                                    <?php if($group->type=='curation'): ?>
+                                                        <a href="<?php echo e(route('content-curation-completed', $group->id)); ?>">
+                                                            <?php endif; ?>
+                                                            <?php if($group->type=='rss-automation'): ?>
+                                                                <a href="<?php echo e(route('rss-automation-completed', $group->id)); ?>">
+                                                                    <?php endif; ?>
 
-                                                                    {{ substr($group->name, 0, 1) }}
+                                                                    <?php echo e(substr($group->name, 0, 1)); ?>
+
                                                                 </a>
                                         </div>
                                         <div class="media-body media-middle">
-                                            @if($group->type=='upload')
-                                                <a href="{{route('content-completed', $group->id)}}">
-                                                    @endif
-                                                    @if($group->type=='curation')
-                                                        <a href="{{route('content-curation-completed', $group->id)}}">
-                                                            @endif
-                                                            @if($group->type=='rss-automation')
-                                                                <a href="{{route('rss-automation-completed', $group->id)}}">
-                                                                    @endif
-                                                                    <h4 class="media-heading">{{$group->name}}</h4>
+                                            <?php if($group->type=='upload'): ?>
+                                                <a href="<?php echo e(route('content-completed', $group->id)); ?>">
+                                                    <?php endif; ?>
+                                                    <?php if($group->type=='curation'): ?>
+                                                        <a href="<?php echo e(route('content-curation-completed', $group->id)); ?>">
+                                                            <?php endif; ?>
+                                                            <?php if($group->type=='rss-automation'): ?>
+                                                                <a href="<?php echo e(route('rss-automation-completed', $group->id)); ?>">
+                                                                    <?php endif; ?>
+                                                                    <h4 class="media-heading"><?php echo e($group->name); ?></h4>
                                                                     <p><i class="fa fa-check-circle-o"></i>
                                                                         <small> Completed</small>
                                                                     </p>
                                                                 </a>
                                         </div>
                                         <div class="media-left media-middle">
-                                            @include('group.grouppop')
+                                            <?php echo $__env->make('group.grouppop', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endif
-                    @endforeach
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
 
@@ -357,7 +361,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="group-bl-ids" onsubmit="removeGroupIds(this, event)">
-                    {{csrf_field()}}
+                    <?php echo e(csrf_field()); ?>
+
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
                         </button>
@@ -543,4 +548,6 @@
         }
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

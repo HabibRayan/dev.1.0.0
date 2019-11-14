@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BufferPosting extends Model
 {
+
+
    public function groupInfo()
     {
         return $this->hasOne(SocialPostGroups::Class, 'id', 'group_id');
